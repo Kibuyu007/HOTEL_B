@@ -1,3 +1,4 @@
+
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
@@ -6,7 +7,7 @@ import cookieParser from 'cookie-parser'
 import multer, { diskStorage } from 'multer'
 
 //importing routers
-import auth from './Router/Auth.js'
+import auth from './Router/Management/Users/Users.js'
 
 
 
@@ -16,7 +17,7 @@ const app = express();
 dotenv.config()
 
 const corsParameters ={
-    origin: "http://localhost:4005",
+    origin: "http://localhost:1500",
     option: true,
     credentials: true
 }
