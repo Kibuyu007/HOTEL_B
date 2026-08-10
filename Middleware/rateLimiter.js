@@ -10,6 +10,6 @@ export const limiter = rateLimit({
 // Stricter limiter for auth routes - 5 attempts per hour
 export const authLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
-  max: 5,
+  max: 50,
   message: 'Too many authentication attempts. Try again in an hour.'
 });
