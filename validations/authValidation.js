@@ -71,15 +71,3 @@ export const updateProfileValidation = [
     .matches(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/)
     .withMessage('Please provide a valid phone number')
 ];
-
-export const updatePasswordValidation = [
-  body('currentPassword')
-    .notEmpty()
-    .withMessage('Current password is required'),
-
-  body('newPassword')
-    .isLength({ min: 8 })
-    .withMessage('New password must be at least 8 characters')
-    .matches(/^(?=.*[A-Za-z])(?=.*\d)/)
-    .withMessage('New password must contain at least one letter and one number')
-];

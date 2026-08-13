@@ -71,7 +71,7 @@ export const updateUser = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(
     req.params.id,
     { $set: req.body },
-    { new: true, runValidators: true }
+    { new: true, runValidators: false }
   );
 
   if (!user) {

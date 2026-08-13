@@ -21,9 +21,9 @@ router.post('/logout', auth.logout);
 router.use(protect);
 
 // User management routes
-router.get('/users', users.getAllUsers);
-router.get('/users/:id', users.getUser);
-router.patch('/users/:id', users.updateUser);
+router.get('/getUsers', users.getAllUsers);
+router.get('/getUser/:id', users.getUser);
+router.patch('/updateUser/:id', users.updateUser);
 router.get('/users/stats', users.getUserStats);
 
 export default router;
