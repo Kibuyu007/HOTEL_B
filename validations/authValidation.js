@@ -1,73 +1,90 @@
-import { body } from 'express-validator';
+import { body } from "express-validator";
 
+//  REGISTER USER VALIDATIONS
 export const registerValidation = [
-  body('name')
+  body("name")
     .trim()
     .isLength({ min: 2 })
-    .withMessage('Name must be at least 2 characters')
+    .withMessage("Name must be at least 2 characters")
     .isLength({ max: 50 })
-    .withMessage('Name cannot exceed 50 characters'),
+    .withMessage("Name cannot exceed 50 characters"),
 
-  body('username')
+  body("username")
     .trim()
     .isLength({ min: 3 })
-    .withMessage('Username must be at least 3 characters')
+    .withMessage("Username must be at least 3 characters")
     .isLength({ max: 30 })
-    .withMessage('Username cannot exceed 30 characters')
+    .withMessage("Username cannot exceed 30 characters")
     .matches(/^[a-zA-Z0-9_]+$/)
-    .withMessage('Username can only contain letters, numbers, and underscores'),
+    .withMessage("Username can only contain letters, numbers, and underscores"),
 
-  body('email')
+  body("email")
     .isEmail()
-    .withMessage('Please provide a valid email')
+    .withMessage("Please provide a valid email")
     .normalizeEmail(),
 
-  body('password')
+  body("password")
     .isLength({ min: 8 })
-    .withMessage('Password must be at least 8 characters')
+    .withMessage("Password must be at least 8 characters")
     .matches(/^(?=.*[A-Za-z])(?=.*\d)/)
-    .withMessage('Password must contain at least one letter and one number'),
+    .withMessage("Password must contain at least one letter and one number"),
 
-  body('phone')
+  body("phone")
     .optional()
     .matches(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/)
-    .withMessage('Please provide a valid phone number')
+    .withMessage("Please provide a valid phone number"),
 ];
 
+// LOGIN VALIDATION
 export const loginValidation = [
-  body('username')  // Changed from 'email' to 'username'
+  body("username") // Changed from 'email' to 'username'
     .notEmpty()
-    .withMessage('Username is required')
+    .withMessage("Username is required")
     .isString()
-    .withMessage('Username must be a string')
+    .withMessage("Username must be a string")
     .trim(),
 
-  body('password')
-    .notEmpty()
-    .withMessage('Password is required')
+  body("password").notEmpty().withMessage("Password is required"),
 ];
 
-export const updateProfileValidation = [
-  body('name')
+//UPDATE USER VALIDATION
+export const updateUserValidation = [
+  body("name")
     .optional()
     .trim()
     .isLength({ min: 2 })
-    .withMessage('Name must be at least 2 characters')
+    .withMessage("Name must be at least 2 characters")
     .isLength({ max: 50 })
-    .withMessage('Name cannot exceed 50 characters'),
+    .withMessage("Name cannot exceed 50 characters"),
 
-  body('username')
+  body("username")
     .optional()
     .trim()
     .isLength({ min: 3 })
-    .withMessage('Username must be at least 3 characters')
+    .withMessage("Username must be at least 3 characters")
     .isLength({ max: 30 })
-    .withMessage('Username cannot exceed 30 characters')
+    .withMessage("Username cannot exceed 30 characters")
     .matches(/^[a-zA-Z0-9_]+$/)
-    .withMessage('Username can only contain letters, numbers, and underscores'),
+    .withMessage("Username can only contain letters, numbers, and underscores"),
 
-  body('phone')
+  body("phone")
     .optional()
     .matches(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/)
-    .withMessage('Please provide a valid phone number')
+    .withMessage("Please provide a valid phone number"),
+
+  body("email")
+    .optional()
+    .isEmail()
+    .withMessage("Please provide a valid email")
+    .normalizeEmail(),
+
+  body("role")
+    .optional()
+    .isIn(["user", "admin", "superadmin"])
+    .withMessage("Invalid role"),
+
+  body("isActive")
+    .optional()
+    .isBoolean()
+    .withMessage("isActive must be a boolean"),
 ];

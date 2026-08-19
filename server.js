@@ -1,50 +1,54 @@
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
-import express from 'express'
-import mongoose from 'mongoose'
-import cors from 'cors'
-import dotenv from 'dotenv'
-import cookieParser from 'cookie-parser'
+// Importing routers
+import errorHandler from "./Middleware/errorHandler.js";
+import auth from "./Router/Management/Users/Users.js";
 
-//importing routers
-import auth from './Router/Management/Users/Users.js'
-
-
-
-//config
+// Config
 const app = express();
+dotenv.config();
 
-dotenv.config()
+const corsParameters = {
+  origin: "http://localhost:1500",
+  options: true,
+  credentials: true,
+};
 
-const corsParameters ={
-    origin: "http://localhost:1500",
-    option: true,
-    credentials: true
-}
+// Middleware
+app.use(express.json());
+app.use(cors(corsParameters));
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
+// ===== ROUTES =====
+app.use("/api/auth", auth);
 
-//SS miidleware 
-app.use(express.json())
-app.use(cors(corsParameters))
-app.use(cookieParser())
+// ===== ERROR HANDLER - MUST BE LAST =====
+app.use(errorHandler);
 
+// ===== 404 HANDLER - Catch all undefined routes =====
+app.use((req, res, next) => {
+  res.status(404).json({
+    status: "fail",
+    message: `Cannot find ${req.originalUrl} on this server`,
+  });
+});
 
+// Mongoose connect
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => {
+    console.log("Database Connected Successfully");
+  })
+  .catch((error) => {
+    console.log("Database Connection Error:", error);
+  });
 
-//Router Middleware
-app.use('/api/auth',auth) 
-
-
-//Mongoose connect
-mongoose.connect(process.env.MONGO_URL,()=>{
-    try {
-        console.log("Database Connected to PORT :" + process.env.PORT )
-
-    } catch (error) {
-        console.log(error)
-    }
-})
-
-
-//listening
-app.listen(process.env.PORT, ()=>{
-    console.log("Live on This PORT : " + process.env.PORT)
-})
+// Listening
+app.listen(process.env.PORT, () => {
+  console.log("Server is Live on PORT: " + process.env.PORT);
+});
